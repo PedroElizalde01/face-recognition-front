@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Label, Image, Button, ButtonContainer, Container, Input, Title } from './styles';
+import { Card, Label, Image, Button, ButtonContainer, Container, Input, Title } from '../components/common';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import usePostFace from '../hooks/usePostFace';
 import useAttendance from '../hooks/useAttendance';
 import CircularLoader from "../components/CircularComponent";
+import InputFile from "../components/InputFile";
 
 const MainPage = () => {
   const [file, setFile] = useState(null)
- const [name, setName] = useState("")
- const [error, setError] = useState(false)
- const [shake, setShake] = useState(false)
+  const [name, setName] = useState("")
+  const [error, setError] = useState(false)
+  const [shake, setShake] = useState(false)
+  const [fileUrl, setFileUrl] = useState(null);
 
  const { uploadLoading, postFace } = usePostFace(name, file);
  const { attendanceLoading, attendance, attendees, image } = useAttendance(file);
@@ -58,22 +60,26 @@ const MainPage = () => {
 
  const handleFileChange = (e) => {
    const selectedFile = e.target.files[0];
-   if (selectedFile) setFile(selectedFile);
+   if (selectedFile) {
+     setFile(selectedFile);
+     setFileUrl(URL.createObjectURL(selectedFile));
+   }
  };
 
  return (
    <Container>
      <ToastContainer />
      <Title> FACE RECOGNITION </Title>
-     <input type="file" accept="image/*" onChange={handleFileChange}></input>
-     <ButtonContainer>
+     <InputFile image={fileUrl} type="file" accept="image/*" onChange={handleFileChange} height="200px" width="200px" />
+     <ButtonContainer  >
        <Input type="text" placeholder="Student's name" error={error} onChange={(e) => handleInput(e)} className={shake ? 'shake' : ''} />
        <Button disabled={uploadLoading || attendanceLoading} onClick={handleUploadFace}>{ uploadLoading ? <CircularLoader />: "Upload face" }</Button>
        <Button disabled={uploadLoading || attendanceLoading} onClick={handleAttendance}>{ attendanceLoading ? <CircularLoader />: "Check attendace" }</Button>
-       {image !== "" && <ButtonContainer background={"var(--background2)"} >
+       {image !== "" && 
+       <Card background={"var(--background2)"} >
          <Image src={image} onClick={() => window.open(image, '_blank')}/>
          {attendees.map((name) =><Label>{name}</Label> )}
-       </ButtonContainer>}
+       </Card>}
      </ButtonContainer>
    </Container>
  );

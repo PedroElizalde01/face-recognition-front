@@ -35,7 +35,7 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
-  width: 80%;
+  width: 200px;
   padding: 10px;
   margin-bottom: 20px;
   border: ${props => (props.error ? '1.5px solid var(--error)' : '1.5px solid var(--primary)')};
@@ -81,6 +81,8 @@ export const Button = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
+  width: ${props => (props.width ? props.width : "")};
+  height: ${props => (props.height ? props.height : "")};
   justify-content: center; 
   align-items: center;
   border-radius: 12px;  
@@ -92,8 +94,69 @@ export const ButtonContainer = styled.div`
   row-gap: 16px;
 `;
 
+export const Card = styled.div`
+  width: ${props => (props.width ? props.width : "")};
+  height: ${props => (props.height ? props.height : "")};
+  justify-content: center; 
+  align-items: center;
+  border-radius: 12px;  
+  background:${props => (props.background ? props.background : "none")};
+  padding: 16px;
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+
+  transition: all ease 0.2s;
+
+  &:hover {
+    transform: ${props => (props.disabled ? '' : 'translate(0, -3px)')};
+    box-shadow: ${props => (props.disabled ? '' : '0 20px 80px -10px var(--primary)')};
+  }
+`;
+
 export const Image = styled.img`
   cursor:pointer;
   max-width:400px;
   max-height:400px;
+`;
+
+export const FileInputWrapper = styled.label`
+  object-fit:cover;
+  justify-content: center; 
+  align-items: center;
+  width: ${props => (props.width ? props.width : "")};
+  height: ${props => (props.height ? props.height : "")};
+  border-radius: 50%;  
+  border: 2px dashed var(--primary);
+  display: flex;
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  transition: transform ease 0.2s, box-shadow ease 0.2s;
+
+  &:hover {
+    transform: ${props => (props.disabled ? '' : 'translate(0, -3px)')};
+    box-shadow: ${props => (props.disabled ? '' : '0 20px 80px -10px var(--primary)')};
+  }
+`;
+
+export const FileInput = styled.input`
+  display: none;
+`;
+
+export const PreviewImage = styled.img`
+  object-fit: cover;
+  min-width: 100%;
+  min-height: 100%;
+`;
+
+export const ImageContainer = styled.div`
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
